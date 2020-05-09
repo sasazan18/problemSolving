@@ -1,0 +1,100 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll unsigned long long
+#define si(n) scanf("%d",&n);
+#define PI acos(-1.0)
+#define sl(n) scanf("%lld",&n);
+#define sf(n) scanf("%lf",&n);
+#define ss(n) scanf("%s",n);
+#define for0(i,n) for(ll i=0;i<n;i++)
+#define for1(i,n) for(ll i=1;i<=n;i++)
+#define forc(i,j,n) for(ll i=j;i<n;i++)
+#define pb push_back
+#define sor(n) sort(n.begin(),n.end())
+#define sorcmp(n) sort(n.begin(),n.end(),cmp)
+#define rev(n) reverse(n.begin(),n.end())
+#define pi(x)  prllf("%d",x);
+#define pl(x)  prllf("%lld",x);
+#define pf(x)  prllf("%.10lf",x);
+#define ps(x)  prllf("%s",x);
+#define en() prllf("\n");
+#define random_shuffle(r...)random_shuffle(r,[](int _){return rand()%_;})
+#define SQR(a) (a)*(a)
+#define sp(x) fixed<<setprecision(x)
+#define mod1 (ll) (2e9+7)
+#define mod2 (ll) (1e9+7)
+#define prime1 (ll) 131
+#define prime2 (ll) 57
+#define endl '\n'
+#define pii pair<int,int>
+#define pll pair<ll,ll>
+#define bug cout<<"Here"<<endl
+void fastio(){ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);}
+template <typename T> T POW(T B,T P){ if(P==0) return 1; if(P&1) return B*POW(B,P-1);  else return SQR(POW(B,P/2));}
+//ll powmod(ll a, ll b){ll ans = 1;while(b){if(b&1) ans = ans*a%mod;a = a*a%mod;b >>= 1;}return ans;}
+ 
+unordered_map<char,int>mp;
+unordered_map<ll,bool>save;
+ 
+ 
+int main()
+{
+ 
+    fastio();
+ 
+    string str;
+    cin>>str;
+    string pat;
+    cin>>pat;
+ 
+ 
+    for(int i='a',k=0;i<='z';i++,k++)
+    {
+        if(pat[k]=='1') mp[i]++;
+    }
+    int k;
+    cin>>k;
+    int cnt=0;
+    for(int i=0;i<str.size();i++)
+    {
+ 
+        ll hash_value1=0;
+        ll hash_value2=0;
+        long long power_1=1;
+        long long power_2=1;
+        int bd=0;
+ 
+        for(int j=i;j<str.size();j++)
+        {
+ 
+ 
+            hash_value1+= (str[j]*(power_1))%mod1;
+            hash_value1=hash_value1%mod1;
+            power_1=(power_1*prime1)%mod1;
+ 
+            hash_value2+= (str[j]*power_2)%mod2;
+            hash_value2=hash_value2%mod2;
+            power_2=(power_2*prime2)%mod2;
+ 
+            ll m_value=(hash_value1<<32) | hash_value2;
+ 
+            if(mp[str[j]]==0) bd++;
+            if(bd>k) break;
+            if(save[m_value]) continue;
+            else
+            {
+                cnt++;
+                save[m_value]=true;
+ 
+            }
+        }
+    }
+       cout<<cnt<<endl;
+ 
+ 
+ 
+ 
+ 
+ 
+}
+ 
