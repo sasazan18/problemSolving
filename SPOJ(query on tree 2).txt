@@ -1,0 +1,221 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define si(n) scanf("%d",&n);
+#define PI acos(-1.0)
+#define sl(n) scanf("%lld",&n);
+#define sf(n) scanf("%lf",&n);
+#define ss(n) scanf("%s",n);
+#define for0(i,n) for(ll i=0;i<n;i++)
+#define for1(i,n) for(ll i=1;i<=n;i++)
+#define forc(i,j,n) for(ll i=j;i<n;i++)
+#define pb push_back
+#define sor(n) sort(n.begin(),n.end())
+#define sorcmp(n) sort(n.begin(),n.end(),cmp)
+#define rev(n) reverse(n.begin(),n.end())
+#define pi(x)  prllf("%d",x);
+#define pl(x)  prllf("%lld",x);
+#define pf(x)  prllf("%.10lf",x);
+#define ps(x)  prllf("%s",x);
+#define en() prllf("\n");
+#define random_shuffle(r...)random_shuffle(r,[](int _){return rand()%_;})
+#define SQR(a) (a)*(a)
+#define sp(x) fixed<<setprecision(x)
+#define mod 100000007
+#define endl '\n'
+#define pii pair<int,int>
+#define pll pair<ll,ll>
+void fastio(){ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);}
+template <typename T> T POW(T B,T P){ if(P==0) return 1; if(P&1) return B*POW(B,P-1);  else return SQR(POW(B,P/2));}
+ll powmod(ll a, ll b){ll ans = 1;while(b){if(b&1) ans = ans*a%mod;a = a*a%mod;b >>= 1;}return ans;}
+
+vector<pii>g[10005];
+int lca[10005][20];
+int par[10005];
+int lvl[10005];
+int dist[10005];
+int n;
+
+
+
+
+void dfs(int u, int par,int d){
+    lvl[u] = 1 + d;
+    lca[u][0]=par;
+    for(auto v:g[u]){
+        int p=v.first;
+        int c=v.second;
+		if (p == par) continue;
+		dist[p]=dist[u]+c;
+		dfs(p, u, lvl[u]);
+	}
+}
+
+
+void createtable()
+{
+  int p=log2(n);
+
+   for(int i=1;i<=p;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            if(lca[j][i-1]==-1) continue;
+
+            int temp=lca[j][i-1];
+            lca[j][i]=lca[temp][i-1];
+        }
+    }
+	return;
+}
+
+int LCA(int a,int b)
+{
+    if(lvl[a]<lvl[b]) swap(a,b);
+    int dif=lvl[a]-lvl[b];
+
+
+    while(dif>0)
+    {
+        int p=log2(dif);
+        dif-=(1<<p);
+        a=lca[a][p];
+    }
+    if(a==b) return a;
+     //cout<<"a b "<<a<<" "<<b<<" "<<dif<<endl;
+    int high=log2(n);
+    for(int i=high;i>=0;i--)
+    {
+        if(lca[a][i]!=-1 && lca[a][i]!=lca[b][i] )
+        {
+          //  cout<<"here"<<endl;
+            a=lca[a][i];
+            b=lca[b][i];
+        }
+    }
+
+    return lca[a][0];
+}
+
+
+int dis(int a,int b)
+{
+    int p=LCA(a,b);
+    //cout<<"p "<<p<<endl;
+   // cout<<dist[p]<<" "<<dist[a]<<" "<<dist[b]<<endl;
+    int d=dist[a]+dist[b]-2*dist[p];
+    return d;
+}
+
+
+int kth(int a,int b, int k)
+{
+    int p=LCA(a,b);
+    int da=lvl[a]-lvl[p]+1;
+    //cout<<lvl[a]<<" "<<lvl[b]<<endl;
+
+    if(k<=da)
+    {
+        int d=k-1;
+        int node=a;
+        while(d>0)
+        {
+            int temp=log2(d);
+            d-=(1<<temp);
+            node=lca[node][temp];
+        }
+        return node;
+    }
+    else
+    {   //cout<<"here"<<endl;
+        int total=lvl[a]+lvl[b]-2*lvl[p]+1;
+        int d=total-k;
+
+         //cout<<d<<endl;
+        int node=b;
+         while(d>0)
+        {
+            int temp=log2(d);
+            d-=(1<<temp);
+            node=lca[node][temp];
+        }
+        return node;
+    }
+}
+
+
+int main()
+{
+    // fastio();
+     int t;
+     cin>>t;
+
+     while(t--)
+     {
+
+         cin>>n;
+         for(int i=0;i<n-1;i++)
+         {
+             int a,b,c;
+             cin>>a>>b>>c;
+             g[a].pb({b,c});
+             g[b].pb({a,c});
+
+         }
+
+     for(int i=0;i<=n;i++)
+     {
+         for(int j=0;j<=19;j++) lca[i][j]=-1;
+     }
+     dfs(1,-1,-1);
+     createtable();
+
+
+
+
+     while(1)
+     {
+         string str;
+         cin>>str;
+         if(str=="DONE") break;
+         if(str=="DIST")
+         {
+              int a,b;
+              cin>>a>>b;
+              cout<<dis(a,b)<<endl;
+
+         }
+         else
+         {
+             int a,b,c;
+                cin>>a>>b>>c;
+                cout<<kth(a,b,c)<<endl;
+         }
+     }
+
+
+     for(int i=0;i<=n+2;i++) g[i].clear(),lvl[i]=0,dist[i]=0;
+     cout<<endl;
+
+
+
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
