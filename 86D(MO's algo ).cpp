@@ -48,7 +48,7 @@ int main()
 
     scanf("%lld %lld",&n,&q);
 
-     bs=sqrt(n);
+     bs=2*sqrt(n);
 
 
     for(ll i=0;i<n;i++){
