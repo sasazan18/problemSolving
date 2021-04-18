@@ -83,7 +83,8 @@ void  multiply(ll a[][mxn] ,ll b[][mxn])
 
 void power(ll m)
 {
-
+    //creating identity matrix
+    
     for(ll i=0; i<n; i++)
     {
         for(ll j=0; j<n; j++)
@@ -93,8 +94,10 @@ void power(ll m)
             else
                 I[i][j]=0LL;
         }
-    }
-
+    }  
+    
+    // calculating arr[][] to the power m by matrix expo.
+    
     while(m)
     {
         if(m%2)
@@ -125,6 +128,8 @@ int main()
     {
         ll m;
         cin>>n>>m;
+        
+        //n is the dimension of the matrix and m is the power... we have to determine arr[n][n] to the power m
 
         for(ll i=0; i<n; i++)
         {
