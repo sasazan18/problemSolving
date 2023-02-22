@@ -1,14 +1,17 @@
 Problem link: https://leetcode.com/problems/longest-palindromic-subsequence/description/
 
+
 class Solution {
 public:
     #define  mxn 1001
     int dp[mxn][mxn];
+    pair<int,int> next[mxn][mxn]; //for printing solution . not necessary for this problem
     string str;
     int func(int b,int e){
        
 
         if(b==e){
+            next[b][e]={b,b}; //for storing solution
             return dp[b][e]=1;
         }
         if(b>e){
@@ -23,11 +26,21 @@ public:
         
 
         if(str[b]==str[e]){
+            next[b][e]={b+1,e-1}; //for storing solution
            return  dp[b][e]= 2 + func(b+1,e-1);
+           
         }
         else {
             res1 = func(b,e-1);
             res2 = func(b+1,e);
+
+            //for storing solutio 
+            if(res1>res2){
+                next[b][e]={b,e-1}; 
+            }
+            else next[b][e]={b+1,e}; 
+            //
+
 
             return dp[b][e]=max(res1,res2);
         }
@@ -45,10 +58,37 @@ public:
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 dp[i][j]=-1;
+                next[i][j]={-1,-1};
             }
         }
 
         int res = func(0,n-1);
+
+
+
+        //for printing solution
+
+        // int i=0,j=n-1;
+        // char solution [res] ;
+        // int l=0,r=res-1;
+
+        // while(1){
+        //    pair<int,int> temp = next[i][j];
+        //    if(s[i]==s[j]){
+        //        solution[l]=solution[r]=s[i];
+               
+        //        l++;
+        //        r--;
+           
+        //    }
+        //        i=temp.first;
+        //        j=temp.second;
+        //        if(i<0 || j<0 || l>r ) break;
+        // }
+
+        // for(auto u:solution) cout<<u;
+        // cout<<endl;
+        
 
         return res;
 
