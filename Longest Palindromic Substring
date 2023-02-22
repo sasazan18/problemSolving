@@ -1,0 +1,57 @@
+Problem Link : https://leetcode.com/problems/longest-palindromic-substring/description/
+
+class Solution {
+public:
+    #define mxn 1001
+    int dp[mxn][mxn];
+    string str;
+    
+    int func(int b,int e){
+        if(b>=e){
+           return dp[b][e]=1;
+        }
+        if(dp[b][e]!=-1){
+            return dp[b][e];
+        }
+        if(str[b]==str[e]){
+            return dp[b][e]=func(b+1,e-1);
+        }
+        else{
+            return dp[b][e]=0;
+        }
+    }
+
+    string longestPalindrome(string s) {
+        str=s;
+        for(int i=0;i<s.size();i++){
+            for(int j=0;j<s.size();j++){
+                dp[i][j]=-1;
+            }
+        }
+        int ans = 1 ;
+        int l=0,r=0;
+        for(int i=0;i<s.size();i++){
+            for(int j=i;j<s.size();j++){
+               if(func(i,j)){
+                   if(j-i+1>ans){
+                       ans=j-i+1;
+                       l=i;
+                       r=j;
+                   }
+               }
+            }
+        }
+
+        string res ;
+     
+        for(int i=l;i<=r;i++){
+            res.push_back(s[i]);
+        }
+
+        return res;
+
+        
+
+        
+    }
+};
