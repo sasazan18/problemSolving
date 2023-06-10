@@ -16,6 +16,8 @@ ll powmod(ll a, ll b){ll ans = 1;while(b){if(b&1) ans = ans*a%mod;a = a*a%mod;b 
 void solve()
 {
     cout<<"Learning git!"<<endl;
+    cout<<"Now adding some more things"<<endl;
+    cout<<"You are the reflections of your thinkings!"<<endl;
 }
 int32_t main() {
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
